@@ -106,7 +106,7 @@ public class LeftMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 optViewHolder.title.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        DezerApp.getLocalBrdcstMgr().sendBroadcast(new Intent(Events.SHOW_DISMISSED_THREATS));
+                        DezerApp.getLocalBrdcstMgr().sendBroadcast(new Intent(Events.EVENT_SEARCH_TRACKS));
                     }
                 });
             }

@@ -10,6 +10,7 @@ import android.util.Log;
 import com.avg.dezerboard.DezerApp;
 
 import pm.me.deezerboard.activities.Player;
+import pm.me.deezerboard.activities.SearchForTrack;
 
 /**
  * Created by tanweer.ali on 1/27/2015.
@@ -42,7 +43,9 @@ public class EventsReceiver extends BroadcastReceiver {
             Bundle params = intent.getBundleExtra(DezerApp.PARAMS);
             this.fragment.eventRefreshScreen( 0 );
         }
-        else if (action.equalsIgnoreCase(Events.SHOW_DISMISSED_THREATS)){
+        else if (action.equalsIgnoreCase(Events.EVENT_SEARCH_TRACKS)){
+            intent = new Intent(DezerApp.instance, SearchForTrack.class);
+            activity.startActivity(intent);
         }
         else if (action.equalsIgnoreCase(Events.SHOW_BLOCKED_APPS)){
             if(activity!= null) {

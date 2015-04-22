@@ -1,11 +1,15 @@
 package com.avg.dezerboard.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.avg.dezerboard.DezerApp;
+import com.avg.dezerboard.events.Events;
 
 import pm.me.deezerboard.R;
 
@@ -41,6 +45,13 @@ public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(v);
             cover = (ImageView) v.findViewById(R.id.cover);
             button = (ImageView) v.findViewById(R.id.button);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DezerApp.getLocalBrdcstMgr().sendBroadcast(new Intent(Events.EVENT_SEARCH_TRACKS));
+                }
+            });
 
 //            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(cellWidth, cellHeight);
 //            v.setLayoutParams(params);
