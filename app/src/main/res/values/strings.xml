@@ -30,4 +30,8 @@
 	<string name="ui_user_flow">This activity plays a custom list of tracks</string>
 	<string name="bass">Bass Freqs.</string>
     <string name="treble">Treble Freqs.</string>
+    <string name="title_activity_player">Player</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

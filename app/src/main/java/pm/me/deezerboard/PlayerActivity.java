@@ -1,5 +1,6 @@
 package pm.me.deezerboard;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -23,9 +24,9 @@ import com.deezer.sdk.player.exception.StreamLimitationException;
 
 
 public class PlayerActivity extends BaseActivity {
-    
-    
-    
+
+
+    private static final String TAG = PlayerActivity.class.getName() ;
     private PlayerHandler mPlayerHandler = new PlayerHandler();
     private OnClickHandler mOnClickHandler = new OnClickHandler();
     
@@ -119,9 +120,10 @@ public class PlayerActivity extends BaseActivity {
         player.addOnBufferProgressListener(mPlayerHandler);
         
         player.addOnPlayerErrorListener(mPlayerHandler);
-        player.addOnPlayerStateChangeListener(mPlayerHandler);
+    //    player.addOnPlayerStateChangeListener(mPlayerHandler);
         player.addOnPlayerProgressListener(mPlayerHandler);
-        
+
+        Log.d(TAG, "seek is allowed : " + mPlayer.isAllowedToSeek());
         if (mPlayer.isAllowedToSeek()) {
             mSeekBar.setEnabled(true);
         }

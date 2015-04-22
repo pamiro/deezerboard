@@ -1,10 +1,8 @@
 package pm.me.deezerboard;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,25 +27,33 @@ import com.deezer.sdk.network.request.DeezerRequestFactory;
 import com.deezer.sdk.network.request.event.DeezerError;
 import com.deezer.sdk.network.request.event.JsonRequestListener;
 import com.deezer.sdk.network.request.event.OAuthException;
-import com.deezer.sdk.player.PlaylistPlayer;
+import com.deezer.sdk.player.TrackPlayer;
 import com.deezer.sdk.player.event.OnPlayerProgressListener;
+import com.deezer.sdk.player.event.OnPlayerStateChangeListener;
+import com.deezer.sdk.player.event.PlayerState;
 import com.deezer.sdk.player.event.PlayerWrapperListener;
 import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class UserPlaylistsActivity extends PlayerActivity
         implements
         PlayerWrapperListener,
-        OnPlayerProgressListener {
-    
+        OnPlayerProgressListener,
+        OnPlayerStateChangeListener {
+
+    private static final String TAG =  UserPlaylistsActivity.class.getName();
+
     /** The list of playlists of displayed by this activity. */
     private List<Playlist> mPlaylistList = new ArrayList<Playlist>();
     
     /** the Playlists list adapter */
     private ArrayAdapter<Playlist> mPlaylistAdapter;
-    private PlaylistPlayer mPlaylistPlayer;
+    private TrackPlayer mTrackPlayer;
     
     private enum Option {
         none,
@@ -66,7 +72,7 @@ public class UserPlaylistsActivity extends PlayerActivity
         // Setup the UI
         setContentView(R.layout.activity_tracklists);
         setupPlaylistsList();
-        setPlayerVisible(false);
+        setPlayerVisible(true);
         
         //build the player
         createPlayer();
@@ -141,7 +147,7 @@ public class UserPlaylistsActivity extends PlayerActivity
             public void onItemClick(final AdapterView<?> parent, final View view,
                     final int position, final long id) {
                 Playlist playlist = mPlaylistList.get(position);
-                mPlaylistPlayer.playPlaylist(playlist.getId());
+                //mTrackPlayer.playPlaylist(playlist.getId());
                 setPlayerVisible(true);
             }
         });
@@ -151,11 +157,20 @@ public class UserPlaylistsActivity extends PlayerActivity
      */
     private void createPlayer() {
         try {
-            mPlaylistPlayer = new PlaylistPlayer(getApplication(), mDeezerConnect,
+//            mPlaylistPlayer = new PlaylistPlayer(getApplication(), mDeezerConnect,
+//                    new WifiAndMobileNetworkStateChecker());
+            mTrackPlayer = new TrackPlayer(getApplication(), mDeezerConnect,
                     new WifiAndMobileNetworkStateChecker());
-            mPlaylistPlayer.addPlayerListener(this);
-            mPlaylistPlayer.addOnPlayerProgressListener(this);
-            setAttachedPlayer(mPlaylistPlayer);
+            mTrackPlayer.addPlayerListener(this);
+            mTrackPlayer.addOnPlayerStateChangeListener(this);
+            mTrackPlayer.addOnPlayerProgressListener(this);
+
+            mTrackPlayer.playTrack(98363604);
+            //mTrackPlayer.setStereoVolume(0,0);
+           // mTrackPlayer.pause();
+            Log.d(TAG, " position " + mTrackPlayer.getTrackDuration());
+       //     mTrackPlayer.seek(120000);
+            setAttachedPlayer(mTrackPlayer);
         }
         catch (OAuthException e) {
             handleError(e);
@@ -216,12 +231,12 @@ public class UserPlaylistsActivity extends PlayerActivity
     
     @Override
     protected void onSkipToNextTrack() {
-        mPlaylistPlayer.skipToNextTrack();
+        mTrackPlayer.skipToNextTrack();
     }
     
     @Override
     protected void onSkipToPreviousTrack() {
-        mPlaylistPlayer.skipToPreviousTrack();
+        mTrackPlayer.skipToPreviousTrack();
     }
     
     
@@ -232,9 +247,9 @@ public class UserPlaylistsActivity extends PlayerActivity
     @Override
     public void onPlayTrack(final Track track) {
         displayTrack(track);
-        if (mOption == Option.fade_in_out) {
-            applyFadeInOut(0);
-        }
+//        if (mOption == Option.fade_in_out) {
+//            applyFadeInOut(0);
+//        }
     }
     
     @Override
@@ -249,16 +264,29 @@ public class UserPlaylistsActivity extends PlayerActivity
     public void onRequestException(final Exception e, final Object requestId) {
         handleError(e);
     }
-    
+
+
+    static boolean once2 = true;
     @Override
     public void onPlayerProgress(final long timePosition) {
-        switch (mOption) {
-            case fade_in_out:
-                applyFadeInOut(timePosition);
-            case none:
-            default:
-                break;
+        Log.d(TAG, "position " + timePosition);
+        if(/*timePosition > 10000 &&*/ once2) {
+            //mTrackPlayer.pause();
+            once2 = false;
+          //  mTrackPlayer.seek(60000);
+            //mTrackPlayer.play();
+            Log.d(TAG, "position after seek : " + mTrackPlayer.getPosition());
+           // mTrackPlayer.setStereoVolume(100, 100);
+
+
         }
+//        switch (mOption) {
+//            case fade_in_out:
+//                applyFadeInOut(timePosition);
+//            case none:
+//            default:
+//                break;
+//        }
     }
     
     private static final long FADE_DURATION = 5000;
@@ -269,7 +297,7 @@ public class UserPlaylistsActivity extends PlayerActivity
     private long mProgressInterval = 1000;
     
     private void applyFadeInOut(final long timePosition) {
-        long trackDuration = mPlaylistPlayer.getTrackDuration();
+        long trackDuration = mTrackPlayer.getTrackDuration();
         
         float factor = 1.0f / FADE_DURATION;
         
@@ -287,17 +315,50 @@ public class UserPlaylistsActivity extends PlayerActivity
             if ((mProgressInterval == PROGRESS_LONG) && ((timePosition < FADE_DURATION)
                     || (timePosition >= (trackDuration - FADE_DURATION - PROGRESS_LONG)))) {
                 mProgressInterval = PROGRESS_SMALL;
-                mPlaylistPlayer.setPlayerProgressInterval(mProgressInterval);
+                mTrackPlayer.setPlayerProgressInterval(mProgressInterval);
             } else if ((mProgressInterval == PROGRESS_SMALL)
                     && (timePosition > (FADE_DURATION + PROGRESS_SMALL))) {
                 mProgressInterval = PROGRESS_LONG;
-                mPlaylistPlayer.setPlayerProgressInterval(mProgressInterval);
+                mTrackPlayer.setPlayerProgressInterval(mProgressInterval);
             }
             
             volume *= volume;
             Log.i("Volume", "Set volume to " + volume);
-            mPlaylistPlayer.setStereoVolume(volume, volume);
+      //ß      mTrackPlayer.setStereoVolume(volume, volume);
         }
         
+    }
+
+    static boolean once = true;
+
+    @Override
+    public void onPlayerStateChange(PlayerState var1, long var2) {
+        Log.d(TAG, "here : " + var1.name());
+        if(var1 == PlayerState.PLAYING && once)
+        {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    mTrackPlayer.seek(60000);
+
+                    //showPlayerState(state);
+                    //showPlayerProgress(timePosition);
+                }
+            });
+            once = false;
+        //    new DelayedTask().execute();
+        }
+    }
+
+
+    public class DelayedTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            mTrackPlayer.seek(10000);
+            Log.d(TAG, "position after seek : " + mTrackPlayer.getPosition());
+            return null;
+        }
     }
 }
