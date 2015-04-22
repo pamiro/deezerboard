@@ -28,7 +28,6 @@ com.deezer.sdk.tools:ignore="ContentDescription" >
         android:id="@+id/item_detail"
         android:layout_alignBottom="@+id/imageView"
         android:layout_toRightOf="@+id/imageView"
-        android:layout_toBottomOf="@+id/item_title"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:textColor="#ff6c6c6c" />
