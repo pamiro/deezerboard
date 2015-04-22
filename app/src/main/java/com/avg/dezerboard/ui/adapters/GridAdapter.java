@@ -1,44 +1,49 @@
 package com.avg.dezerboard.ui.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.avg.dezerboard.DezerApp;
-import com.avg.dezerboard.events.Events;
+import android.widget.ImageView;
 
 import pm.me.deezerboard.R;
 
 /**
  * Created by tanweer.ali on 2/5/2015.
  */
-public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context context;
-    String[] options;
 
-    public GridAdapter(Context ctx){
+    private static int cellHeight = 0;
+    private static int cellWidth;
+
+    public GridAdapter(Context ctx) {
         context = ctx;
-        Resources res = ctx.getResources();
-        options = res.getStringArray(R.array.options);
+    }
+
+    public void setCellHeight(int width, int height){
+        this.cellHeight = height;
+        this.cellWidth = width;
     }
 
     //------------------------------------------------------------------
     // define holders
     //------------------------------------------------------------------
     // ViewHolder #1
-    public static class OptionViewHolder extends RecyclerView.ViewHolder {
+    public static class CellViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView title;
-        public OptionViewHolder(View v) {
+        public ImageView cover;
+        public ImageView button;
+
+        public CellViewHolder(View v) {
             super(v);
-            title = (TextView) v.findViewById(R.id.title);
+            cover = (ImageView) v.findViewById(R.id.cover);
+            button = (ImageView) v.findViewById(R.id.button);
+
+//            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(cellWidth, cellHeight);
+//            v.setLayoutParams(params);
         }
     }
     //------------------------------------------------------------------
@@ -46,25 +51,12 @@ public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh = null;
-        switch (viewType) {
-            case 0:
-                // create the Main Card
-                View v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.row_item_option, parent, false);
+        // create the Main Card
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.grid_item_cell, parent, false);
 
-                // set the view's size, margins, paddings and layout parameters
-                vh = new OptionViewHolder(v);
-                break;
-
-            case 1:
-                // create the AppRisk Card
-                v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.row_item_option, parent, false);
-
-                // set the view's size, margins, paddings and layout parameters
-                vh = new OptionViewHolder(v);
-                break;
-        }
+        // set the view's size, margins, paddings and layout parameters
+        vh = new CellViewHolder(v);
         return vh;
     }
 
@@ -72,72 +64,22 @@ public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        switch(position){
+        switch (position) {
 
-            ///
-            case 0: {
-                OptionViewHolder optViewHolder = (OptionViewHolder) holder;
-                optViewHolder.title.setText(options[position]);
-                optViewHolder.title.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DezerApp.getLocalBrdcstMgr().sendBroadcast(new Intent(Events.SHOW_BLOCKED_APPS));
-                    }
-                });
-            }
-            break;
-
-            ///
-            case 1: {
-                OptionViewHolder optViewHolder = (OptionViewHolder) holder;
-                optViewHolder.title.setText(options[position]);
-                optViewHolder.title.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DezerApp.getLocalBrdcstMgr().sendBroadcast(new Intent(Events.SHOW_TRAFFIC_STATS));
-                    }
-                });
-            }
-            break;
-
-            case 2: {
-                OptionViewHolder optViewHolder = (OptionViewHolder) holder;
-                optViewHolder.title.setText(options[position]);
-                optViewHolder.title.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DezerApp.getLocalBrdcstMgr().sendBroadcast(new Intent(Events.SHOW_DISMISSED_THREATS));
-                    }
-                });
-            }
-            break;
-
-            case 4: case 5: case 6: case 7: case 8: {
-                OptionViewHolder optViewHolder = (OptionViewHolder) holder;
-                optViewHolder.title.setText(options[position]);
-                optViewHolder.title.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-            break;
         };
 
     }
 
     @Override
     public int getItemCount() {
-        return (options.length);
+        return (6);
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position <= 0){
+        if (position %2 ==0) {
             return 0;
-        }
-        else {
+        } else {
             return 1;
         }
     }

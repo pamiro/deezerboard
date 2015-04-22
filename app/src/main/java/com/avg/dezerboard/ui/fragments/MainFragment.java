@@ -6,15 +6,18 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.avg.dezerboard.DezerApp;
 import com.avg.dezerboard.events.Events;
 import com.avg.dezerboard.events.EventsFragment;
 import com.avg.dezerboard.events.EventsReceiver;
+import com.avg.dezerboard.ui.adapters.GridAdapter;
 
 import pm.me.deezerboard.R;
 
@@ -33,7 +36,7 @@ public class MainFragment extends Fragment implements EventsFragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private OnFragmentInteractionListener mListener;
-    private RecyclerView recyclerView;
+    private GridAdapter adapter;
 
     /**
      * Use this factory method to create a new instance of
@@ -68,6 +71,41 @@ public class MainFragment extends Fragment implements EventsFragment {
         // inflate resource .xml
         final Context context = this.getActivity();
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        // setup the gridview to be just two columns and 6 cells
+
+        final RecyclerView grid = (RecyclerView) rootView.findViewById(R.id.grid);
+        grid.setHasFixedSize(true);
+        adapter = new GridAdapter(getActivity());
+        grid.setAdapter(adapter);
+
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                grid.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                int width  = grid.getMeasuredWidth();
+                int height = grid.getMeasuredHeight();
+
+                // caclualte cell dimensions
+                int cellWidth = width / 2;
+                int cellHeight = height / 3;
+
+                adapter.setCellHeight(cellWidth, cellHeight);
+            }
+        });
+
+        final int numColumns = 2;
+        GridLayoutManager manager = new GridLayoutManager(this.getActivity(), numColumns);
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return 1;
+            }
+        });
+        grid.setLayoutManager(manager);
+
+        rootView.invalidate();
+
         return rootView;
     }
 

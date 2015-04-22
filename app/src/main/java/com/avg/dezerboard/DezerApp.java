@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -25,6 +26,7 @@ public class DezerApp extends Application {
     public static DeezerConnect deezerConnect = null;
 
     public static DezerApp instance = null;
+    public static Typeface font;
 
 
     @Override
@@ -34,6 +36,8 @@ public class DezerApp extends Application {
         localBrdcstMgr = LocalBroadcastManager.getInstance(this);
         deezerConnect = new DeezerConnect(this, Constants.APP_ID);
         instance = this;
+
+        font = Typeface.createFromAsset(getAssets(), "pixelsix14.ttf");
     }
 
     @Override

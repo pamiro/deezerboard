@@ -16,17 +16,19 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/hamburger"
+            android:layout_centerHorizontal="true"
             android:layout_marginRight="4dp"
+            android:paddingLeft="-30dp"
+            android:gravity="center_horizontal"
             android:text="DezerBoard"
             android:textColor="#ffffff"
             android:layout_marginLeft="4dp"
-            android:textSize="22sp"
-            android:fontFamily="sans-serif"
-            android:textStyle="bold" />
+            android:textSize="32sp"
+            android:textStyle="normal"
+            />
 
 
     </RelativeLayout>

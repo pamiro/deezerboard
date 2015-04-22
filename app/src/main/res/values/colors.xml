@@ -7,4 +7,11 @@
     <color name="player_background">#Fccc</color>
 
     <color name="black_overlay">#66000000</color>
+
+
+    <color name="bkg_theme">#EB4605</color>
+    <color name="bkg_actionbar">#FE5237</color>
+
+    <color name="white">#FFFFFF</color>
+
 </resources>

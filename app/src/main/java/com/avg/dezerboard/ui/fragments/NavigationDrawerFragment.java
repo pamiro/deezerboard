@@ -21,7 +21,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.avg.dezerboard.DezerApp;
 import com.avg.dezerboard.ui.adapters.LeftMenuAdapter;
 
 import pm.me.deezerboard.R;
@@ -105,6 +107,9 @@ public class NavigationDrawerFragment extends Fragment {
             LayoutInflater inflator = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             actionbarView = inflator.inflate(R.layout.actionbar, null);
             actionBar.setCustomView(actionbarView);
+            ((TextView)actionbarView.findViewById(R.id.title)).setTypeface(DezerApp.font);
+
+
         }
     }
 

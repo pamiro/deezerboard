@@ -5,27 +5,24 @@
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
 
 	-->
-	<style name="DeezerDemoBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-		<!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-
-		-->
-	</style>
-
 
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
 
 
-    <!-- Application theme. -->
-	<style name="DeezerDemoTheme" parent="@style/DeezerDemoBaseTheme">
+    -->
+    <style name="DeezerDemoBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/bkg_theme</item>
+        <item name="android:colorBackground">@color/bkg_theme</item>
+        <item name="actionBarStyle">@style/CustomActionBarStyle</item>
+    </style>
 
-		<!-- All customizations that are NOT specific to a particular API-level can go here. -->
-		<item name="android:windowBackground">@android:color/white</item>
-	</style>
+    <!-- ActionBar styles -->
+    <style name="CustomActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:height">54dp</item>
+        <item name="background">@color/bkg_actionbar</item>
+    </style>
 
     <style name="FullscreenTheme" parent="android:Theme.NoTitleBar">
         <item name="android:windowContentOverlay">@null</item>
