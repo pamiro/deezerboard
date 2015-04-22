@@ -2,6 +2,7 @@ package pm.me.deezerboard.engine;
 
 import android.util.Log;
 
+import com.avg.dezerboard.DezerApp;
 import com.deezer.sdk.model.Track;
 import com.deezer.sdk.network.request.event.DeezerError;
 import com.deezer.sdk.player.TrackPlayer;
@@ -12,7 +13,6 @@ import com.deezer.sdk.player.event.PlayerWrapperListener;
 import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
 
-import pm.me.deezerboard.DeezerBoardApp;
 
 /**
  * Created by Pavel Mironchyk on 22/04/15.
@@ -47,7 +47,7 @@ public class TrackFragmentPlayer {
 
 
         public PlayerTask(boolean auto) throws DeezerError, TooManyPlayersExceptions {
-            mPlayer = new TrackPlayer(DeezerBoardApp.instance, DeezerBoardApp.deezerConnect, new WifiAndMobileNetworkStateChecker());
+            mPlayer = new TrackPlayer(DezerApp.instance, DezerApp.deezerConnect, new WifiAndMobileNetworkStateChecker());
 
             mPlayer.addOnPlayerStateChangeListener(this);
             mPlayer.addPlayerListener(this);

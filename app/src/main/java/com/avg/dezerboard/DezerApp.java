@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.deezer.sdk.network.connect.DeezerConnect;
+
+import pm.me.deezerboard.Constants;
+
 
 /**
  * Created by Pavel Mironchyk on 23/12/14.
@@ -18,14 +22,18 @@ public class DezerApp extends Application {
     private static LocalBroadcastManager localBrdcstMgr;
 
     public static final String PARAMS = "params";
+    public static DeezerConnect deezerConnect = null;
+
+    public static DezerApp instance = null;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
-
         localBrdcstMgr = LocalBroadcastManager.getInstance(this);
+        deezerConnect = new DeezerConnect(this, Constants.APP_ID);
+        instance = this;
     }
 
     @Override

@@ -8,10 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.avg.dezerboard.DezerApp;
 import com.deezer.sdk.network.request.event.DeezerError;
 import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 
-import pm.me.deezerboard.DeezerBoardApp;
 import pm.me.deezerboard.R;
 import pm.me.deezerboard.engine.TrackFragmentPlayer;
 
@@ -65,7 +65,7 @@ public class Player extends Activity {
         mSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DeezerBoardApp.instance, SearchForTrack.class);
+                Intent intent = new Intent(DezerApp.instance, SearchForTrack.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

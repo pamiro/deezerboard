@@ -6,11 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Switch;
 
 import com.avg.dezerboard.DezerApp;
 
-import pm.me.deezerboard.R;
+import pm.me.deezerboard.activities.Player;
 
 /**
  * Created by tanweer.ali on 1/27/2015.
@@ -44,6 +43,11 @@ public class EventsReceiver extends BroadcastReceiver {
             this.fragment.eventRefreshScreen( 0 );
         }
         else if (action.equalsIgnoreCase(Events.SHOW_DISMISSED_THREATS)){
+        }
+        else if (action.equalsIgnoreCase(Events.SHOW_BLOCKED_APPS)){
+            if(activity!= null) {
+                activity.startActivity(new Intent(activity, Player.class));
+            }
         }
         else {
             if(activity !=null){

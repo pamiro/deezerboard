@@ -95,10 +95,9 @@ public class MainFragment extends Fragment implements EventsFragment {
     public void onResume() {
         super.onResume();
         // register all events
+        EventsReceiver.getInstance().setActivity(this.getActivity());
         EventsReceiver.getInstance().setFragment(this);
         DezerApp.getLocalBrdcstMgr().registerReceiver(EventsReceiver.getInstance(), new IntentFilter(Events.REFRESH_SCREEN));
-        DezerApp.getLocalBrdcstMgr().registerReceiver(EventsReceiver.getInstance(), new IntentFilter(Events.TURN_OFF_VPN));
-        DezerApp.getLocalBrdcstMgr().registerReceiver(EventsReceiver.getInstance(), new IntentFilter(Events.TURN_ON_VPN));
         DezerApp.getLocalBrdcstMgr().registerReceiver(EventsReceiver.getInstance(), new IntentFilter(Events.SHOW_BLOCKED_APPS));
         DezerApp.getLocalBrdcstMgr().registerReceiver(EventsReceiver.getInstance(), new IntentFilter(Events.SHOW_TRAFFIC_STATS));
         DezerApp.getLocalBrdcstMgr().registerReceiver(EventsReceiver.getInstance(), new IntentFilter(Events.SHOW_DISMISSED_THREATS));
