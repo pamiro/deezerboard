@@ -42,8 +42,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(final View v) {
                 Intent intent;
-                intent = new Intent(LoginActivity.this, VisualizerActivity.class);
-                intent.putExtra(VisualizerActivity.EXTRA_DISPLAY, VisualizerActivity.DISPLAY_FFT);
+                intent = new Intent(LoginActivity.this, VisualizerActivityNew.class);
+                intent.putExtra(VisualizerActivityNew.EXTRA_DISPLAY, VisualizerActivity.DISPLAY_FFT);
                 startActivity(intent);
             }
         });

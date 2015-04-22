@@ -11,4 +11,9 @@
 		<item>Custom</item>
 	</string-array>
 
+    <string-array name="options">
+        <item>TheNextWeb2015</item>
+        <item>CreateANewBoard</item>
+    </string-array>
+
 </resources>

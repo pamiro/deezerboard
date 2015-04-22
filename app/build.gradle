@@ -38,4 +38,9 @@ dependencies {
     //compile files('src/main/libs/deezer-sdk-0.10.17@aar')
     compile(name:'deezer-sdk-0.10.17', ext:'aar')
     compile project(':deezer-sdk')
+
+    compile 'com.android.support:recyclerview-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:support-v4:21.0.3'
+
 }
