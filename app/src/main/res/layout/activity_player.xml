@@ -21,4 +21,12 @@
         android:layout_below="@+id/button_first"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search For Track"
+        android:id="@+id/button_search"
+        android:layout_below="@+id/button_second"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

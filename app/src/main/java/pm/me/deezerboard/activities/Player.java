@@ -1,6 +1,7 @@
 package pm.me.deezerboard.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,12 +11,13 @@ import android.widget.Button;
 import com.deezer.sdk.network.request.event.DeezerError;
 import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 
+import pm.me.deezerboard.DeezerBoardApp;
 import pm.me.deezerboard.R;
 import pm.me.deezerboard.engine.TrackFragmentPlayer;
 
 public class Player extends Activity {
 
-    Button mFirst, mSecond;
+    Button mFirst, mSecond, mSearch;
 
     TrackFragmentPlayer.PlayerTask mStaticPlayer;
 
@@ -26,6 +28,7 @@ public class Player extends Activity {
 
         mFirst = (Button) findViewById(R.id.button_first);
         mSecond = (Button) findViewById(R.id.button_second);
+        mSearch = (Button) findViewById(R.id.button_search);
 
         try {
             mStaticPlayer = new TrackFragmentPlayer.PlayerTask(false);
@@ -34,7 +37,7 @@ public class Player extends Activity {
         } catch (TooManyPlayersExceptions tooManyPlayersExceptions) {
             tooManyPlayersExceptions.printStackTrace();
         }
-        final TrackFragmentPlayer.TaskSpecification task = new TrackFragmentPlayer.TaskSpecification(98363604, 0, 5000);
+        final TrackFragmentPlayer.TaskSpecification task = new TrackFragmentPlayer.TaskSpecification(1109731, 0, 5000);
 
         mFirst.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +59,15 @@ public class Player extends Activity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        mSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DeezerBoardApp.instance, SearchForTrack.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
     }
