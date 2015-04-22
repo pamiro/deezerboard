@@ -36,15 +36,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".activities.Player"
-            android:screenOrientation="portrait" />
-
-
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
         </activity>
 
         <!-- User Home activity -->
@@ -107,6 +109,19 @@
         <activity
             android:name=".UserCustomTrackListActivity"
             android:screenOrientation="portrait" />
+
+
+
+        <activity
+            android:name=".activities.Player"
+            android:screenOrientation="portrait"
+            />
+
+        <activity
+            android:name=".activities.SearchForTrack"
+            android:label="@string/title_activity_search_for_track" >
+        </activity>
+
     </application>
 
 </manifest>

@@ -1,8 +1,5 @@
 package pm.me.deezerboard;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,12 +12,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.deezer.sdk.model.AImageOwner.ImageSize;
 import com.deezer.sdk.model.User;
 import com.deezer.sdk.network.connect.SessionStore;
 import com.deezer.sdk.network.request.AsyncDeezerTask;
@@ -29,7 +23,6 @@ import com.deezer.sdk.network.request.DeezerRequestFactory;
 import com.deezer.sdk.network.request.event.DeezerError;
 import com.deezer.sdk.network.request.event.JsonRequestListener;
 import com.deezer.sdk.network.request.event.RequestListener;
-import com.squareup.picasso.Picasso;
 
 
 /**
@@ -95,8 +88,9 @@ public class HomeActivity extends BaseActivity {
         
         return res;
     }
-    
+
     private void displayUserInfo(final User user) {
+        /*
         ((TextView) findViewById(R.id.name)).setText(user.getLastName());
         ((TextView) findViewById(R.id.first_name)).setText(user.getFirstName());
         
@@ -109,6 +103,7 @@ public class HomeActivity extends BaseActivity {
         
         Picasso.with(this).load(user.getImageUrl(ImageSize.medium))
                 .into((ImageView) findViewById(R.id.user_picture));
+                */
     }
     /**
      * Fetches the user info from Deezer API
