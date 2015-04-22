@@ -41,7 +41,7 @@ public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public ImageView cover;
         public ImageView button;
 
-        public CellViewHolder(View v) {
+        public CellViewHolder(View v, int position) {
             super(v);
             cover = (ImageView) v.findViewById(R.id.cover);
             button = (ImageView) v.findViewById(R.id.button);
@@ -52,6 +52,10 @@ public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     DezerApp.getLocalBrdcstMgr().sendBroadcast(new Intent(Events.EVENT_SEARCH_TRACKS));
                 }
             });
+
+            if(position%2 == 1){
+                cover.setImageResource(R.drawable.tile_b);
+            }
 
 //            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(cellWidth, cellHeight);
 //            v.setLayoutParams(params);
@@ -67,7 +71,7 @@ public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 .inflate(R.layout.grid_item_cell, parent, false);
 
         // set the view's size, margins, paddings and layout parameters
-        vh = new CellViewHolder(v);
+        vh = new CellViewHolder(v, viewType);
         return vh;
     }
 
@@ -88,7 +92,7 @@ public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (position %2 ==0) {
+        if (position == 0 || position == 3 || position==4) {
             return 0;
         } else {
             return 1;

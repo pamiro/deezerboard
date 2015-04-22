@@ -11,6 +11,8 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:textColor="@color/white"
+        android:textCursorDrawable="@null"
+        android:gravity="center_horizontal|center_vertical"
         />
 
 
