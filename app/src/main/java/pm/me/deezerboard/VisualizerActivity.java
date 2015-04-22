@@ -1,4 +1,4 @@
-package com.deezer.sdk.sample;
+package pm.me.deezerboard;
 
 import android.annotation.TargetApi;
 import android.media.audiofx.Visualizer;
@@ -18,10 +18,11 @@ import com.deezer.sdk.player.RadioPlayer.RadioType;
 import com.deezer.sdk.player.event.RadioPlayerListener;
 import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
-import com.deezer.sdk.sample.ui.FFTView;
-import com.deezer.sdk.sample.ui.WaveformView;
 
 import java.util.Arrays;
+
+import pm.me.deezerboard.ui.FFTView;
+import pm.me.deezerboard.ui.WaveformView;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public class VisualizerActivity extends PlayerActivity
@@ -82,10 +83,10 @@ public class VisualizerActivity extends PlayerActivity
         setPlayerVisible(true);
 
         // disable unnecesary buttons
-        setButtonEnabled(mButtonPlayerSeekBackward, false);
-        setButtonEnabled(mButtonPlayerSeekForward, false);
-        setButtonEnabled(mButtonPlayerSkipBackward, false);
-        setButtonEnabled(mButtonPlayerSkipForward, false);
+        setButtonEnabled(mButtonPlayerSeekBackward, true);
+        setButtonEnabled(mButtonPlayerSeekForward, true);
+        setButtonEnabled(mButtonPlayerSkipBackward, true);
+        setButtonEnabled(mButtonPlayerSkipForward, true);
         setButtonEnabled(mButtonPlayerStop, false);
         setButtonEnabled(mButtonPlayerPause, false);
 

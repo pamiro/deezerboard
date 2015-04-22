@@ -1,4 +1,4 @@
-package com.deezer.sdk.sample;
+package pm.me.deezerboard;
 
 import java.util.LinkedList;
 import java.util.List;

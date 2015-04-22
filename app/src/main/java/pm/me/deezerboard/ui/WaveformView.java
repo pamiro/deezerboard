@@ -1,4 +1,4 @@
-package com.deezer.sdk.sample.ui;
+package pm.me.deezerboard.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;

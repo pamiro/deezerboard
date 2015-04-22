@@ -4,7 +4,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
-	com.deezer.sdk.tools:context="com.deezer.sdk.sample.RadiosActivity" >
+	com.deezer.sdk.tools:context="pm.me.deezerboard.RadiosActivity" >
 
 	<include
 		android:id="@+id/player"

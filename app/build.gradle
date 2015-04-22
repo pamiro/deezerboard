@@ -5,10 +5,10 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.deezer.sdk.sample"
+        applicationId "pm.me.deezerboard"
 
-        minSdkVersion 8
-        targetSdkVersion 21
+        minSdkVersion 9
+        targetSdkVersion 16
 
         versionCode 1
         versionName "1.0"
@@ -27,7 +27,15 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     compile 'com.squareup.picasso:picasso:2.4.0'
+    //compile files('src/main/libs/deezer-sdk-0.10.17@aar')
+    compile(name:'deezer-sdk-0.10.17', ext:'aar')
     compile project(':deezer-sdk')
 }

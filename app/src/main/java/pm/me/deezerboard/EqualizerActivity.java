@@ -1,4 +1,4 @@
-package com.deezer.sdk.sample;
+package pm.me.deezerboard;
 
 import android.media.audiofx.Equalizer;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.deezer.sdk.sample;
+package pm.me.deezerboard;
 
 import android.os.Bundle;
 import android.widget.Toast;

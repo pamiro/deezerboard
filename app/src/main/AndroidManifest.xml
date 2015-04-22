@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.deezer.sdk.sample">
+          package="pm.me.deezerboard">
 
 
     <!-- Obviously needed to download tracks and send request to the API -->
