@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.avg.dezerboard.DezerApp;
 import com.avg.dezerboard.events.Events;
@@ -41,6 +41,17 @@ public class LeftMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             title = (TextView) v.findViewById(R.id.title);
         }
     }
+
+    // ViewHolder #1
+    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        public ImageView header;
+        public HeaderViewHolder(View v) {
+            super(v);
+            header = (ImageView) v.findViewById(R.id.header);
+        }
+    }
+
     //------------------------------------------------------------------
 
     @Override
@@ -50,11 +61,12 @@ public class LeftMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 0:
                 // create the Main Card
                 View v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.row_item_option, parent, false);
+                        .inflate(R.layout.row_item_option_header, parent, false);
 
                 // set the view's size, margins, paddings and layout parameters
-                vh = new OptionViewHolder(v);
+                vh = new HeaderViewHolder(v);
                 break;
+
 
             case 1:
                 // create the AppRisk Card
@@ -75,22 +87,9 @@ public class LeftMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         switch(position){
 
             ///
-            case 0: {
-                OptionViewHolder optViewHolder = (OptionViewHolder) holder;
-                optViewHolder.title.setText(options[position]);
-                optViewHolder.title.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DezerApp.getLocalBrdcstMgr().sendBroadcast(new Intent(Events.SHOW_BLOCKED_APPS));
-                    }
-                });
-            }
-            break;
-
-            ///
             case 1: {
                 OptionViewHolder optViewHolder = (OptionViewHolder) holder;
-                optViewHolder.title.setText(options[position]);
+                optViewHolder.title.setText(options[position-1]);
                 optViewHolder.title.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -102,7 +101,7 @@ public class LeftMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             case 2: {
                 OptionViewHolder optViewHolder = (OptionViewHolder) holder;
-                optViewHolder.title.setText(options[position]);
+                optViewHolder.title.setText(options[position-1]);
                 optViewHolder.title.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -112,29 +111,18 @@ public class LeftMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
             break;
 
-            case 4: case 5: case 6: case 7: case 8: {
-                OptionViewHolder optViewHolder = (OptionViewHolder) holder;
-                optViewHolder.title.setText(options[position]);
-                optViewHolder.title.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-            break;
         };
 
     }
 
     @Override
     public int getItemCount() {
-        return (options.length);
+        return (options.length)+1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position <= 0){
+        if(position == 0){
             return 0;
         }
         else {
