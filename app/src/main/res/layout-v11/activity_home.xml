@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:com.deezer.sdk.tools="http://schemas.android.com/com.deezer.sdk.tools"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	com.deezer.sdk.tools:ignore="ContentDescription" >
+
+	<RelativeLayout
+		android:id="@+id/panel_user"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/header_background"
+		android:orientation="vertical"
+		android:padding="10dp"
+        android:backgroundTint="#383838">
+
+        <SearchView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchView"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/searchView" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/button_close"
+            android:contentDescription="@android:string/cancel" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+	<ListView
+		android:id="@android:id/list"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@id/panel_user" />
+
+</RelativeLayout>
