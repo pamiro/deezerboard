@@ -112,7 +112,6 @@ public class MainActivity extends ActionBarActivity
 
         mainfragment.adapter.notifyDataSetChanged();
 
+        DezerApp.save("default");
     }
-
-
 }

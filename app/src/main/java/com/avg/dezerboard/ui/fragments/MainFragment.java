@@ -84,8 +84,12 @@ public class MainFragment extends Fragment implements EventsFragment {
         final Context context = this.getActivity();
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+
         mLabelView = (TextView) rootView.findViewById(R.id.title_label);
         mLabelEdit = (EditText) rootView.findViewById(R.id.title_edit);
+
+        mLabelView.setText(DezerApp.title);
+        mLabelEdit.setText(DezerApp.title);
 
         mLabelView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +111,9 @@ public class MainFragment extends Fragment implements EventsFragment {
                     mLabelView.setVisibility(View.VISIBLE);
                     mLabelEdit.setVisibility(View.GONE);
                     mLabelView.setText(mLabelView.getText());
+                    DezerApp.title = mLabelView.getText().toString();
+                    DezerApp.save("default");
+
                     return true;
                 }
                 return false;

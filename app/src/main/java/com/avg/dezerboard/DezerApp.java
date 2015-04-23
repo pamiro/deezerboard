@@ -10,7 +10,12 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.deezer.sdk.network.connect.DeezerConnect;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import pm.me.deezerboard.Constants;
 
@@ -33,6 +38,9 @@ public class DezerApp extends Application {
     public static JSONObject lastSelectedTrack = null;
     public static int positionToSelect = -1;
 
+
+    public static String title = "TheNextWeb2015";
+
     public static JSONObject[] trackInCells = new JSONObject[] {
         null, null, null, null, null, null
     };
@@ -46,11 +54,67 @@ public class DezerApp extends Application {
         instance = this;
 
         font = Typeface.createFromAsset(getAssets(), "pixelsix14.ttf");
+
+        load("default");
+
     }
 
     @Override
     public void onTerminate() {
         super.onTerminate();
+
+        save("default");
+    }
+
+    public static void save(String boarname) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("title", title);
+            JSONArray arr = new JSONArray();
+            for(JSONObject t : trackInCells) {
+                arr.put(t);
+            }
+
+            obj.put("tracks", arr);
+            FileOutputStream outputStream;
+
+            try {
+                outputStream = DezerApp.instance.openFileOutput(boarname, Context.MODE_PRIVATE);
+                outputStream.write(obj.toString().getBytes());
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ///
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void load(String boardname) {
+
+        FileInputStream inputStream;
+
+        try {
+            inputStream = DezerApp.instance.openFileInput(boardname);
+            byte[] buffer = new byte[inputStream.available()];
+            inputStream.read(buffer);
+            String str = new String(buffer, "UTF-8");
+
+            JSONObject obj = new JSONObject(str);
+
+            if(obj.getString("title") != null) {
+                title = obj.getString("title");
+            }
+            JSONArray arr = obj.getJSONArray("tracks");
+            for(int i = 0; i < arr.length(); i ++) {
+
+                trackInCells[i] = arr.getJSONObject(i);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static Context getContext(){
@@ -88,4 +152,7 @@ public class DezerApp extends Application {
         }
         return false;
     }
+
+
+
 }
