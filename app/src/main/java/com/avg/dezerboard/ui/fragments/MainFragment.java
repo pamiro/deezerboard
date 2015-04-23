@@ -2,12 +2,14 @@ package com.avg.dezerboard.ui.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +38,7 @@ public class MainFragment extends Fragment implements EventsFragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private OnFragmentInteractionListener mListener;
-    private GridAdapter adapter;
+    public GridAdapter adapter;
 
     /**
      * Use this factory method to create a new instance of
@@ -171,5 +173,12 @@ public class MainFragment extends Fragment implements EventsFragment {
      */
     public void eventRefreshScreen(int state) {
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d(TAG, "onActivityResult() :" + data.toString());
     }
 }

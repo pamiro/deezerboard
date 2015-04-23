@@ -3,6 +3,7 @@ package com.avg.dezerboard.ui.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +11,22 @@ import android.widget.ImageView;
 
 import com.avg.dezerboard.DezerApp;
 import com.avg.dezerboard.events.Events;
+import com.deezer.sdk.network.request.event.DeezerError;
+import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import pm.me.deezerboard.R;
+import pm.me.deezerboard.activities.SearchForTrack;
+import pm.me.deezerboard.engine.TrackFragmentPlayer;
 
 /**
  * Created by tanweer.ali on 2/5/2015.
  */
 public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final String TAG = GridAdapter.class.getName();
     private final Context context;
 
     private static int cellHeight = 0;
@@ -32,6 +41,7 @@ public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.cellWidth = width;
     }
 
+
     //------------------------------------------------------------------
     // define holders
     //------------------------------------------------------------------
@@ -41,30 +51,94 @@ public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public ImageView cover;
         public ImageView button;
 
-        public CellViewHolder(View v, int position) {
+        public CellViewHolder(View v, final int position) {
             super(v);
+
+            Log.d(TAG, "CellViewHolder()" + position);
+
             cover = (ImageView) v.findViewById(R.id.cover);
             button = (ImageView) v.findViewById(R.id.button);
 
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DezerApp.getLocalBrdcstMgr().sendBroadcast(new Intent(Events.EVENT_SEARCH_TRACKS));
+            update(position);
+        }
+
+        private void update(final int position) {
+            JSONObject obj = DezerApp.trackInCells[position];
+
+            if(DezerApp.trackInCells[position] == null) {
+
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DezerApp.positionToSelect = position;
+                        DezerApp.getLocalBrdcstMgr().sendBroadcast(new Intent(Events.EVENT_SEARCH_TRACKS));
+                    }
+                });
+
+                if (position % 2 == 1) {
+                    cover.setImageResource(R.drawable.tile_b);
                 }
-            });
-
-            if(position%2 == 1){
-                cover.setImageResource(R.drawable.tile_b);
             }
+            else {
 
-//            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(cellWidth, cellHeight);
-//            v.setLayoutParams(params);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // PLAY
+                        try {
+                            new TrackFragmentPlayer.PlayerTask(true).play(new TrackFragmentPlayer.TaskSpecification(DezerApp.trackInCells[position].getLong("id"), 0, 5000));
+                        } catch (DeezerError deezerError) {
+                            deezerError.printStackTrace();
+                        } catch (TooManyPlayersExceptions tooManyPlayersExceptions) {
+                            tooManyPlayersExceptions.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+                button.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        DezerApp.positionToSelect = position;
+                        DezerApp.getLocalBrdcstMgr().sendBroadcast(new Intent(Events.EVENT_SEARCH_TRACKS));
+                        return true;
+                    }
+                });
+
+                String imageURL = null;
+                try {
+                    JSONObject tmp = null;
+
+                    tmp = obj.getJSONObject("album");
+
+                    if(tmp != null) {
+                        imageURL = tmp.getString("cover");
+                    }
+                    tmp = obj.getJSONObject("artist");
+                    if(tmp != null) {
+                        if(imageURL == null) {
+                            imageURL = tmp.getString("picture");
+                         }
+                    }
+
+                    if(imageURL!= null)
+                        new SearchForTrack.ImageDownloader(cover).execute(imageURL);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
     //------------------------------------------------------------------
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        Log.d(TAG, "onCreateViewHolder " + viewType);
+
         RecyclerView.ViewHolder vh = null;
         // create the Main Card
         View v = LayoutInflater.from(parent.getContext())
@@ -77,12 +151,9 @@ public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        switch (position) {
-
-        };
-
+        Log.d(TAG, "onBindViewHolder " + position);
+        CellViewHolder vh = (CellViewHolder) holder;
+        vh.update(position);
     }
 
     @Override
@@ -92,10 +163,6 @@ public class GridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 || position == 3 || position==4) {
-            return 0;
-        } else {
-            return 1;
-        }
+        return position;
     }
 }

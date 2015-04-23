@@ -46,7 +46,7 @@ public class EventsReceiver extends BroadcastReceiver {
         }
         else if (action.equalsIgnoreCase(Events.EVENT_SEARCH_TRACKS)){
             intent = new Intent(DezerApp.instance, SearchForTrack.class);
-            activity.startActivity(intent);
+            activity.startActivityForResult(intent,0);
         }
         else if (action.equalsIgnoreCase(Events.SHOW_BLOCKED_APPS)){
             if(activity!= null) {

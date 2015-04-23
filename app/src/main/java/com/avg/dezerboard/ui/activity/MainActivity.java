@@ -9,8 +9,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 
+import com.avg.dezerboard.DezerApp;
 import com.avg.dezerboard.ui.fragments.MainFragment;
 import com.avg.dezerboard.ui.fragments.NavigationDrawerFragment;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import pm.me.deezerboard.R;
 
@@ -46,15 +50,18 @@ public class MainActivity extends ActionBarActivity
 
     }
 
+    public MainFragment mainfragment;
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         Log.d(TAG, "onNavigationDrawerItemSelected() :" + position);
 
         // update the main content by replacing fragments
         if(position == 0) {
+            mainfragment  = MainFragment.newInstance(position + 1);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance(position + 1))
+                    .replace(R.id.container, mainfragment)
                     .commit();
         }
     }
@@ -85,9 +92,26 @@ public class MainActivity extends ActionBarActivity
 
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if(data == null) return;
+        Log.d(TAG, "onActivityResult() : " + data.toString());
+
+        try {
+            DezerApp.lastSelectedTrack = new JSONObject(data.getStringExtra("track"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG, " track : " + DezerApp.lastSelectedTrack);
+        DezerApp.trackInCells[DezerApp.positionToSelect] = DezerApp.lastSelectedTrack;
+
+        mainfragment.adapter.notifyDataSetChanged();
+
     }
 
 

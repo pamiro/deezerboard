@@ -11,7 +11,7 @@
         android:id="@+id/cover"
         android:layout_gravity="center_vertical|center_horizontal"
         android:background="@drawable/tile_a"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         />
 
     <ImageView

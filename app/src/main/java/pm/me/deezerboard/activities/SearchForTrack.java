@@ -47,6 +47,32 @@ public class SearchForTrack extends Activity {
     ListView   mListView;
 
 
+
+    public static class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public ImageDownloader(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String url = urls[0];
+            Bitmap mIcon = null;
+            try {
+                InputStream in = new java.net.URL(url).openStream();
+                mIcon = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+            }
+            return mIcon;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
+
+
     public static DefaultHttpClient getConfiguredClient() {
 
         BasicHttpParams httpParameters = new BasicHttpParams();
@@ -139,30 +165,6 @@ public class SearchForTrack extends Activity {
             return getItem(position).hashCode();
         }
 
-
-        class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
-            ImageView bmImage;
-
-            public ImageDownloader(ImageView bmImage) {
-                this.bmImage = bmImage;
-            }
-
-        protected Bitmap doInBackground(String... urls) {
-            String url = urls[0];
-            Bitmap mIcon = null;
-            try {
-                InputStream in = new java.net.URL(url).openStream();
-                mIcon = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-            }
-            return mIcon;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {

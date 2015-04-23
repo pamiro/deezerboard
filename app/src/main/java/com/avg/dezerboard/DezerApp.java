@@ -10,6 +10,8 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.deezer.sdk.network.connect.DeezerConnect;
 
+import org.json.JSONObject;
+
 import pm.me.deezerboard.Constants;
 
 
@@ -28,6 +30,12 @@ public class DezerApp extends Application {
     public static DezerApp instance = null;
     public static Typeface font;
 
+    public static JSONObject lastSelectedTrack = null;
+    public static int positionToSelect = -1;
+
+    public static JSONObject[] trackInCells = new JSONObject[] {
+        null, null, null, null, null, null
+    };
 
     @Override
     public void onCreate() {
