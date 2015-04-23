@@ -35,6 +35,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.avg.dezerboard.ui.activity.TrackActivity"
+            android:theme="@style/DeezerDemoBaseTheme"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait" >
         </activity>

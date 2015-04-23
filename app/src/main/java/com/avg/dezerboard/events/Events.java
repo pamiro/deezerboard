@@ -9,5 +9,6 @@ public class Events {
     public static final String SHOW_BLOCKED_APPS  = "SHOW_BLOCKED_APPS";
     public static final String EVENT_SHOW_VISUALIZER = "EVENT_SHOW_VISUALIZER";
     public static final String EVENT_SEARCH_TRACKS = "EVENT_SEARCH_TRACKS";
+    public static final String EVENT_SHOW_TRACKBAR = "EVENT_SHOW_TRACKBAR";
 
 }

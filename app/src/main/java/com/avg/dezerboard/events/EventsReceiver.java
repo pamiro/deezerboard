@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.avg.dezerboard.DezerApp;
+import com.avg.dezerboard.ui.activity.TrackActivity;
 
 import pm.me.deezerboard.VisualizerActivity;
 import pm.me.deezerboard.activities.Player;
@@ -51,6 +52,11 @@ public class EventsReceiver extends BroadcastReceiver {
         else if (action.equalsIgnoreCase(Events.SHOW_BLOCKED_APPS)){
             if(activity!= null) {
                 activity.startActivity(new Intent(activity, Player.class));
+            }
+        }
+        else if (action.equalsIgnoreCase(Events.EVENT_SHOW_TRACKBAR)){
+            if(activity!= null) {
+                activity.startActivity(new Intent(activity, TrackActivity.class));
             }
         }
         else if (action.equalsIgnoreCase(Events.EVENT_SHOW_VISUALIZER)){

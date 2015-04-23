@@ -187,6 +187,7 @@ public class MainFragment extends Fragment implements EventsFragment {
         DezerApp.getLocalBrdcstMgr().registerReceiver(EventsReceiver.getInstance(), new IntentFilter(Events.SHOW_BLOCKED_APPS));
         DezerApp.getLocalBrdcstMgr().registerReceiver(EventsReceiver.getInstance(), new IntentFilter(Events.EVENT_SHOW_VISUALIZER));
         DezerApp.getLocalBrdcstMgr().registerReceiver(EventsReceiver.getInstance(), new IntentFilter(Events.EVENT_SEARCH_TRACKS));
+        DezerApp.getLocalBrdcstMgr().registerReceiver(EventsReceiver.getInstance(), new IntentFilter(Events.EVENT_SHOW_TRACKBAR));
 
         DezerApp.sendLocalEvent(Events.REFRESH_SCREEN);
     }
