@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+android:background="@drawable/cover"
+android:focusable="false"
+    android:id="@+id/background_cover">
+
+    <ImageButton
+        android:id="@+id/confirm"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/confirm"
+        android:visibility="visible"
+        android:contentDescription="confirm"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="false"
+        android:clickable="true"
+        android:paddingRight="15dp"
+        android:paddingTop="15dp"
+        android:layout_alignParentEnd="false"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:text="Lil John - Turn Down for What"
+        android:textColor="#ffffff"
+        android:textSize="32sp"
+        android:textStyle="normal"
+        android:contentDescription="title"
+        android:paddingTop="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/time_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|bottom"
+        android:text="0:00"
+        android:textColor="#ffffff"
+        android:textSize="32sp"
+        android:textStyle="normal"
+        android:contentDescription="time_start"
+        android:visibility="visible"
+        android:textAlignment="textEnd"
+        android:paddingBottom="15dp"
+        android:editable="true"
+        android:layout_alignTop="@+id/time_separator"
+        android:layout_toLeftOf="@+id/time_separator"
+        android:paddingRight="5dp"
+        android:inputType="time" />
+
+    <TextView
+        android:id="@+id/time_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|bottom"
+        android:text="|"
+        android:textColor="#ffffff"
+        android:textSize="32sp"
+        android:textStyle="normal"
+        android:contentDescription="time_start"
+        android:visibility="visible"
+        android:textAlignment="center"
+        android:paddingBottom="15dp"
+        android:editable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/time_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|bottom"
+        android:text="0:24"
+        android:textColor="#f8e850"
+        android:textSize="32sp"
+        android:textStyle="normal"
+        android:contentDescription="time_start"
+        android:visibility="visible"
+        android:textAlignment="center"
+        android:paddingBottom="15dp"
+        android:editable="true"
+        android:layout_alignTop="@+id/time_separator"
+        android:paddingLeft="5dp"
+        android:layout_toRightOf="@+id/time_separator"
+        android:inputType="time" />
+
+    <MediaController
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/soundwave"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
+</RelativeLayout>
+
+
+    <com.avg.dezerboard.ui.TrackBarView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp"
+        android:alpha="0.5"
+        />
+
+</FrameLayout>
