@@ -1,8 +1,6 @@
 .gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
+.idea
+local.properties
 .DS_Store
-/build
+build
 
-deezer-sdk/deezer-sdk-0.10.17.aar
