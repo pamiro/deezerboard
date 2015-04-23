@@ -2,13 +2,18 @@ package pm.me.deezerboard.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -134,14 +139,67 @@ public class SearchForTrack extends Activity {
             return getItem(position).hashCode();
         }
 
+
+        class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
+            ImageView bmImage;
+
+            public ImageDownloader(ImageView bmImage) {
+                this.bmImage = bmImage;
+            }
+
+        protected Bitmap doInBackground(String... urls) {
+            String url = urls[0];
+            Bitmap mIcon = null;
+            try {
+                InputStream in = new java.net.URL(url).openStream();
+                mIcon = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+            }
+            return mIcon;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = mInflater.inflate(R.layout.item_title_cover, parent, false);
-            TextView title = (TextView)view.findViewById(R.id.text_title);
+            View view = mInflater.inflate(R.layout.search_item_list_element, parent, false);
+
+            TextView title = (TextView)view.findViewById(R.id.item_title);
+            TextView detailsView = (TextView) view.findViewById(R.id.item_detail);
+
+            ImageView iv = (ImageView) view.findViewById(R.id.image_cover);
+
+            String imageURL = null;
+            String details = "";
             JSONObject obj = (JSONObject)getItem(position);
             try {
                 Log.d(TAG, "title " + obj.getString("title"));
                 title.setText(obj.getString("title"));
+
+
+
+                JSONObject tmp = obj.getJSONObject("album");
+                if(tmp != null) {
+                    details += tmp.getString("title") + " - ";
+                    imageURL = tmp.getString("cover");
+                }
+                tmp = obj.getJSONObject("artist");
+                if(tmp != null) {
+                    details += tmp.getString("name");
+                    if(imageURL == null) {
+                        imageURL = tmp.getString("picture");
+                    }
+                }
+
+                detailsView.setText(details);
+
+                if(imageURL!= null)
+                    new ImageDownloader(iv).execute(imageURL);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -191,6 +249,36 @@ public class SearchForTrack extends Activity {
         mAdapter.load(new JSONArray());
         mListView.setAdapter(mAdapter);
 
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            }
+        });
+
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = SearchForTrack.this.getIntent();
+                intent.putExtra("track", mAdapter.getItem(position).toString());
+                SearchForTrack.this.setResult(RESULT_OK, intent);
+                finish();
+
+                return false;
+            }
+        });
+
+        mListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -202,7 +290,7 @@ public class SearchForTrack extends Activity {
                 Log.d(TAG, "onQueryTextChange() " + newText);
 
                 synchronized (SearchForTrack.this) {
-                    if(mTask != null) {
+                    if (mTask != null) {
                         mTask.cancel(true);
                         mTask = null;
                     }
