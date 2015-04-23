@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container">
 
     <EditText
+        android:id="@+id/title_edit"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
@@ -13,8 +15,27 @@
         android:textColor="@color/white"
         android:textCursorDrawable="@null"
         android:textSize="28sp"
+        android:singleLine="true"
+        android:text="Cool Fragments"
+        android:visibility="gone"
+        android:imeOptions="actionDone"
+        android:editable="true"
         android:gravity="center_horizontal|center_vertical"
         />
+
+
+    <TextView
+        android:id="@+id/title_label"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:textColor="@android:color/white"
+        android:textSize="28sp"
+        android:text="Cool Fragments"
+        android:gravity="center_horizontal|center_vertical"
+         />
 
 
     <android.support.v7.widget.RecyclerView

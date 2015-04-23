@@ -10,10 +10,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.avg.dezerboard.DezerApp;
 import com.avg.dezerboard.events.Events;
@@ -39,6 +43,8 @@ public class MainFragment extends Fragment implements EventsFragment {
 
     private OnFragmentInteractionListener mListener;
     public GridAdapter adapter;
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -67,12 +73,45 @@ public class MainFragment extends Fragment implements EventsFragment {
         }
     }
 
+    public TextView mLabelView;
+    public EditText mLabelEdit;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // inflate resource .xml
         final Context context = this.getActivity();
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        mLabelView = (TextView) rootView.findViewById(R.id.title_label);
+        mLabelEdit = (EditText) rootView.findViewById(R.id.title_edit);
+
+        mLabelView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLabelView.setVisibility(View.GONE);
+                mLabelEdit.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mLabelEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                        actionId == EditorInfo.IME_ACTION_DONE ||
+                        actionId == EditorInfo.IME_ACTION_NEXT ||
+                        /*event.getAction() == KeyEvent.ACTION_DOWN &&*/
+                                event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    //onSearchAction(v);
+                    mLabelView.setVisibility(View.VISIBLE);
+                    mLabelEdit.setVisibility(View.GONE);
+                    mLabelView.setText(mLabelView.getText());
+                    return true;
+                }
+                return false;
+            }
+        });
 
         // setup the gridview to be just two columns and 6 cells
 
